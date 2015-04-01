@@ -172,7 +172,7 @@ define(function (require) {
     var url = IPython.utils.url_join_encode(
                 '../',
                 'api',
-                'notebooks'
+                'contents'
         );
 
 	$.ajax(url, settings);
@@ -224,7 +224,7 @@ define(function (require) {
 				        };
 				        var url = IPython.utils.url_join_encode(
 				            '../',
-				            'api/notebooks',
+				            'api/contents',
 				            "",
 				            nbname
 				        );
@@ -257,7 +257,7 @@ define(function (require) {
         };
         var url = IPython.utils.url_join_encode(
             base_url,
-            'api/notebooks',
+            'api/contents',
             path
         );
         $.ajax(url, settings);
