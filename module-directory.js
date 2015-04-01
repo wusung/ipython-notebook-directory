@@ -3,29 +3,32 @@ var nbname = '';
 var session = {};
 var sessions = {};
 
-IPython.sessions = {};
-
-;(function () {
-require(["../nbextensions/module-sidebar/module-sidebar.js",
-		'../nbextensions/dir-tabs/jquery.cookie.js',
-		'../nbextensions/dir-tabs/jquery-treeview/jquery.treeview.js',
-		'../nbextensions/dir-tabs/jquery-treeview/jquery.treeview.async.js',
-		'../nbextensions/dir-tabs/jquery-contextMenu/jquery.contextMenu.js',
-		'../nbextensions/dir-tabs/jquery-contextMenu/jquery.ui.position.js',
-		'tree/js/sessionlist',
-		], 
-		function (events) {
-
+define(function (require) {
 	'use strict';
 	window.console && console.log('module-directory loaded');
+
+	var IPython = require('base/js/namespace');
+	var events = require('base/js/events');
+	var sesssionlist = require('tree/js/sessionlist');
+
+	require('../module-sidebar/module-sidebar');
+	require('../dir-directory/jquery.cookie');
+	require('../dir-directory/jquery-treeview/jquery.treeview');
+	require('../dir-directory/jquery-treeview/jquery.treeview.async');
+	require('../dir-directory/jquery-contextMenu/jquery.contextMenu');
+	require('../dir-directory/jquery-contextMenu/jquery.ui.position');
+	
+	IPython.sessions = {};
+
 	var ext_path = '../nbextensions/dir-tabs';
-	$("head").append($("<link rel='stylesheet' href='" + ext_path + "/module-directory.css' type='text/css' />"));
+	$("head").append($("<link rel='stylesheet' href='../nbextensions/dir-directory/module-directory.css' type='text/css' />"));
 
 	var opts = {
         base_url : IPython.utils.get_body_data("baseUrl"),
         notebook_path : IPython.utils.get_body_data("notebookPath"),
+        events : events,
     };
-    IPython.session_list = new IPython.SesssionList(opts);
+    IPython.session_list = new sesssionlist.SesssionList(opts);
     IPython.session_list.load_sessions();
 
     $([IPython.events]).on('sessions_loaded.Dashboard', 
@@ -36,22 +39,23 @@ require(["../nbextensions/module-sidebar/module-sidebar.js",
 
    	var list_loaded = function (data, status, xhr, param) {
    		
-    	var len = data.length;
+    	var len = data.content.length;
+    	var content = data.content;
 
     	if (len > 0) {
     		$('<ul id="directory-tree" class="filetree"></ul>')
     			.appendTo('#sidebar-dir.tab-pane');
     	}
     	for (var i=0; i<len; i++) {
-			var item = data[len];
-			if (data[i].type === 'directory') {
+			var item = content[len];
+			if (content[i].type === 'directory') {
 				$('<li class="context-menu-one box menu-1"></li>')
-					.append('<span class="folder">' + data[i].name + '</span>' + 
+					.append('<span class="folder">' + content[i].name + '</span>' + 
 						'<ul><li><span class="placeholder">&nbsp;</span></li></ul>')
 					.appendTo('#directory-tree');
 			} else {
 				$('<li class=" context-menu-one box menu-1"></li>')
-					.append('<span class="file"><a href="' + data[i].name + '">' + data[i].name + '</a></span>')
+					.append('<span class="file"><a href="' + content[i].name + '">' + content[i].name + '</a></span>')
 					.appendTo('#directory-tree');
 			}
     	}
@@ -274,4 +278,3 @@ require(["../nbextensions/module-sidebar/module-sidebar.js",
         });
     }
 });
-}).call(this);
