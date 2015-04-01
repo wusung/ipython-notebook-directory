@@ -1,0 +1,7 @@
+@import url("jquery-treeview/jquery.treeview.css");
+@import url("jquery-contextMenu/jquery.contextMenu.css");
+
+.context-menu-item {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
