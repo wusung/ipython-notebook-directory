@@ -1,9 +1,9 @@
-# IPython Notebook with Tabs (Directory)
+# IPython Notebook Module Directory
 --------------
 
 ## How to install
 
-### Install IPython-notebook-module-tabs
+### Install IPython-notebook-module-directory
 To install this tabs extension, please follow these steps:
 
 1. Copy all files in the projects to `~/.ipython/profile_default/static/custom`.
